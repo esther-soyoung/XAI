@@ -75,4 +75,5 @@ urllib3==1.24.1
 wcwidth==0.1.7
 Werkzeug==0.14.1
 xgboost==0.81
+ipywidgets==7.5.1
 voila==0.1.21
