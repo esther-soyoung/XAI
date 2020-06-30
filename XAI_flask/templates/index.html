@@ -33,12 +33,8 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#mainContext").load("/XAI");
-    });
-
-    function introduction() {
-        $("#mainContext").load("/XAI");
+    function visionSHAP() {
+        document.getElementById('mainContent').innerHTML = '<img src="{{ url_for('visionshap') }}" style="width:inherit; max-width:100%; height:auto;padding:100px">';
     }
 </script>
 
@@ -58,11 +54,11 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="DeepLearning" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" id="vision" data-toggle="dropdown"
                    aria-haspopup="true"
                    aria-expanded="false">Vision</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">SHAP</a>
+                    <a class="dropdown-item" href="#" onclick="visionSHAP()">SHAP</a>
                     <a class="dropdown-item" href="#">LIME</a>
                     <a class="dropdown-item" href="#">LRP</a>
                 </div>
@@ -91,7 +87,7 @@
 
 <main role="main" class="container">
 
-    <div id="mainContext">
+    <div id="mainContent" align="center">
         <h1>XAI란 무엇일까요?</h1>
         <p class="lead">XAI란 설명 가능한 인공지능을 말합니다. 이후는 누군가가 알아서 써줄 것입니다.</p>
     </div>
