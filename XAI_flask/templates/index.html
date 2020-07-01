@@ -11,15 +11,6 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -31,10 +22,47 @@
 
 </head>
 
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    $(document).ready(() => {
+        $('#mainContent').load('/XAI');
+    });
+
+    function XAI() {
+        $("#mainContent").load('/XAI');
+    }
+
     function visionSHAP() {
-        document.getElementById('mainContent').innerHTML = '<img src="{{ url_for('visionshap') }}" style="width:inherit; max-width:100%; height:auto;padding:100px">';
+        $("#mainContent").load('/visionshap')
+    }
+
+    function visionLIME() {
+
+    }
+
+    function visionLRP() {
+
+    }
+
+    function NLP_SHAP() {
+
+    }
+
+    function NLP_LIME() {
+
+    }
+
+    function NLP_LRP() {
+
     }
 </script>
 
@@ -49,7 +77,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/XAI" onclick="introduction()">What is XAI? <span
+                <a class="nav-link" href="#" onclick="XAI()">What is XAI? <span
                         class="sr-only">(current)</span></a>
             </li>
 
@@ -59,8 +87,8 @@
                    aria-expanded="false">Vision</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="#" onclick="visionSHAP()">SHAP</a>
-                    <a class="dropdown-item" href="#">LIME</a>
-                    <a class="dropdown-item" href="#">LRP</a>
+                    <a class="dropdown-item" href="#" onclick="visionLIME()">LIME</a>
+                    <a class="dropdown-item" href="#" onclick="visionLRP()">LRP</a>
                 </div>
             </li>
 
@@ -68,9 +96,9 @@
                 <a class="nav-link dropdown-toggle" href="#" id="NLP" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">NLP</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
-                    <a class="dropdown-item" href="#" onclick="SHAP()">SHAP</a>
-                    <a class="dropdown-item" href="#">LIME</a>
-                    <a class="dropdown-item" href="#">LRP</a>
+                    <a class="dropdown-item" href="#" onclick="NLP_SHAP()">SHAP</a>
+                    <a class="dropdown-item" href="#" onclick="NLP_LIME()">LIME</a>
+                    <a class="dropdown-item" href="#" onclick="NLP_LRP()">LRP</a>
                 </div>
             </li>
 
@@ -78,7 +106,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="NLP" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">Machine Learning</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown03">
-                    <a class="dropdown-item" href="#">PDP</a>
+                    <a class="dropdown-item" href="#" onclick="PDP()">PDP</a>
                 </div>
             </li>
         </ul>
@@ -87,22 +115,11 @@
 
 <main role="main" class="container">
 
-    <div id="mainContent" align="center">
-        <h1>XAI란 무엇일까요?</h1>
-        <p class="lead">XAI란 설명 가능한 인공지능을 말합니다. 이후는 누군가가 알아서 써줄 것입니다.</p>
+    <div id="mainContent" align="center" style="padding-top: 100px">
+
     </div>
 
 </main>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
 
 </body>
 </html>

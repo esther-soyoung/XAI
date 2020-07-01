@@ -10,6 +10,7 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import load_model
 from tensorflow.keras import backend as K
 
+
 class SHAP_MNIST:
     def __init__(self):
         model = load_model('models/mnist_model.h5')
@@ -21,11 +22,9 @@ class SHAP_MNIST:
         if K.image_data_format() == 'channels_first':
             self.x_train = self.x_train.reshape(self.x_train.shape[0], 1, img_rows, img_cols)
             self.x_test = self.x_test.reshape(self.x_test.shape[0], 1, img_rows, img_cols)
-            input_shape = (1, img_rows, img_cols)
         else:
             self.x_train = self.x_train.reshape(self.x_train.shape[0], img_rows, img_cols, 1)
             self.x_test = self.x_test.reshape(self.x_test.shape[0], img_rows, img_cols, 1)
-            input_shape = (img_rows, img_cols, 1)
 
         self.x_train = self.x_train.astype('float32')
         self.x_test = self.x_test.astype('float32')
@@ -42,8 +41,3 @@ class SHAP_MNIST:
         pl.savefig(img, format='png', dpi=500)
         img.seek(0)
         return img
-
-
-
-
-# plot the feature attributions
