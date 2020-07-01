@@ -17,8 +17,6 @@
             }
         }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
 
 </head>
 
@@ -33,37 +31,7 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    $(document).ready(() => {
-        $('#mainContent').load('/XAI');
-    });
 
-    function XAI() {
-        $("#mainContent").load('/XAI');
-    }
-
-    function visionSHAP() {
-        $("#mainContent").load('/visionshap')
-    }
-
-    function visionLIME() {
-
-    }
-
-    function visionLRP() {
-
-    }
-
-    function NLP_SHAP() {
-
-    }
-
-    function NLP_LIME() {
-
-    }
-
-    function NLP_LRP() {
-
-    }
 </script>
 
 <body>
@@ -77,46 +45,52 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#" onclick="XAI()">What is XAI? <span
+                <a class="nav-link" href="/">What is XAI? <span
                         class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="vision" data-toggle="dropdown"
-                   aria-haspopup="true"
-                   aria-expanded="false">Vision</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#" onclick="visionSHAP()">SHAP</a>
-                    <a class="dropdown-item" href="#" onclick="visionLIME()">LIME</a>
-                    <a class="dropdown-item" href="#" onclick="visionLRP()">LRP</a>
-                </div>
+            <li class="nav-item active">
+                <a class="nav-link" href="/vision">Vision<span
+                        class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="NLP" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">NLP</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown02">
-                    <a class="dropdown-item" href="#" onclick="NLP_SHAP()">SHAP</a>
-                    <a class="dropdown-item" href="#" onclick="NLP_LIME()">LIME</a>
-                    <a class="dropdown-item" href="#" onclick="NLP_LRP()">LRP</a>
-                </div>
+            <li class="nav-item active">
+                <a class="nav-link" href="/nlp">NLP<span
+                        class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="NLP" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">Machine Learning</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown03">
-                    <a class="dropdown-item" href="#" onclick="PDP()">PDP</a>
-                </div>
+            <li class="nav-item active">
+                <a class="nav-link" href="/machinelearning">MachineLearning<span
+                        class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
 </nav>
+<div id="navbar">
 
+</div>
 <main role="main" class="container">
 
-    <div id="mainContent" align="center" style="padding-top: 100px">
+    <div id="mainContent" align="left" style="padding-top: 100px">
+        <h3>XAI란 무엇일까요?</h3>
+        <ul>
+            <li><p>SHAP</p>
+                <p>SHAP에 대한 간략한 설명</p>
+            </li>
+            <li><p>LRP</p>
+                <p>LRP에 대한 간략한 설명</p>
+            </li>
+            <li><p>LIME</p>
+                <p>LIME에 대한 간략한 설명</p>
+            </li>
+            <li><p>Filter Visualization</p>
+                <p>필터 시각화에 대한 간략한 설명</p>
+            </li>
+            <li><p>PDP</p>
+                <p>PDP에 대한 간략한 설명</p>
+            </li>
 
+        </ul>
     </div>
 
 </main>

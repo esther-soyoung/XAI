@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>XAI</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        .result_image {
+            max-width: 100%;
+            height: auto;
+        }
+        .selectbutton {
+            width: auto;
+            max-width: 680px;
+            padding: 0 100px;
+        }
+    </style>
+
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    var isSubmitted = false;
+
+    function submit_data() {
+        const result = document.getElementById("result");
+        const model_dataset_select = document.getElementById("model_dataset_select");
+        const submit_button = document.getElementById("submit_button");
+
+        const result_content =  result.childNodes[1];
+
+        const models = [
+            document.getElementById("shap"),
+            document.getElementById("lrp"),
+            document.getElementById("lime"),
+            document.getElementById("filtervisialization")
+        ];
+
+        if (isSubmitted === false) {
+            isSubmitted = true;
+
+            if (models[0].checked) {
+                //shap
+                result_content.innerHTML =
+                    '<img src=\"{{ url_for('visionshap', dataset='mnist') }}\" class="result_image">';
+
+            } else if (models[1].checked) {
+                //lrp
+
+            } else if (models[2].checked) {
+                //lime
+
+            } else if (models[3].checked) {
+                //filter visualization
+
+            }
+
+            result.style.display = "";
+            model_dataset_select.style.display = "none";
+            submit_button.innerText = "돌아가기";
+        } else {
+            isSubmitted = false;
+
+            result_content.innerHTML = "";
+
+            result.style.display = "none";
+            model_dataset_select.style.display = "";
+
+            submit_button.innerText = "결과 보기"
+        }
+    }
+</script>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">XAI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">What is XAI? <span
+                        class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/vision">Vision<span
+                        class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/nlp">NLP<span
+                        class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/machinelearning">MachineLearning<span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <form id="submit_form" action="#" method="post">
+        <div id="mainContent" class="container" align="center" style="padding-top: 100px">
+
+            <div class="container" id="model_dataset_select">
+                <div class="page-header">
+                    <h2>Vision XAI</h2>
+                    <p>XAI 모델과 데이터셋을 선택해주세요</p>
+                </div>
+
+                <div class="jumbotron text-center">
+                    <div class="btn-group btn-group-toggle container-fluid" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input type="radio" name="model" value="shap" id="shap" autocomplete="off" checked> SHAP
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="model" value="lrp" id="lrp" autocomplete="off"> LRP
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="model" value="lime" id="lime" autocomplete="off"> LIME
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="model" value="filtervisialization" id="filtervisialization"
+                                   autocomplete="off">
+                            Filter Visualization
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="jumbotron text-center">
+                    <div class="btn-group btn-group-toggle container-fluid" data-toggle="buttons">
+                        <label class="btn btn-primary active" data-toggle="tooltip" data-placement="top" title="간단한 숫자 손글씨 데이터">
+                            <input type="radio" name="dataset" value="mnist" id="option1" autocomplete="off" checked>
+                            MNIST
+                        </label>
+                        <label class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="10개의 사물을 분류하는 데이터셋">
+                            <input type="radio" name="dataset" value="cifar10" id="option2" autocomplete="off"> CIFAR10
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="result" style="display:none;">
+                <div class="jumbotron text-center">
+
+                </div>
+            </div>
+
+            <button id="submit_button" type="button" class="btn btn-success btn-lg bottom-left" onclick="submit_data()">결과 보기</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

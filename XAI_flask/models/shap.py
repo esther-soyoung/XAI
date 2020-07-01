@@ -7,14 +7,11 @@ from io import BytesIO, StringIO
 
 import tensorflow as tf
 from tensorflow.keras.datasets import mnist
-from tensorflow.keras.models import load_model
 from tensorflow.keras import backend as K
 
 
 class SHAP_MNIST:
-    def __init__(self):
-        model = load_model('models/mnist_model.h5')
-
+    def __init__(self, model):
         img_rows, img_cols = 28, 28
 
         (self.x_train, y_train), (self.x_test, y_test) = mnist.load_data()
