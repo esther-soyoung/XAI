@@ -5,8 +5,9 @@ from flask import Flask, render_template, send_file, request, __main__
 from nocache import nocache
 
 
-from models.lime import LIME_NLP, TextsToSequences
-from models.shap import SHAP_MNIST
+from models.lime import LIME_NLP
+from models.shap_vision import SHAP_MNIST
+from models.shap_nlp import SHAP_NLP
 from models.lrp import LRP
 
 '''
@@ -14,9 +15,10 @@ from models.lrp import LRP
 '''
 model_mnist = load_model('models/pretrained/mnist_model.h5')
 
-# shap_mnist = SHAP_MNIST(model_mnist)
+shap_mnist = SHAP_MNIST(model_mnist)
 # lrp_mnist = LRP(model_mnist, (-1, 28, 28, 1))
 
+shap_nlp = SHAP_NLP()
 lime_nlp = LIME_NLP()
 
 app = Flask(__name__)
@@ -84,15 +86,13 @@ def visionfv(dataset):
 @nocache
 def nlpshap():
     requested_text = request.args['text']
-    print(requested_text)
-    return 'hello i am nlp shap'
+    return send_file(shap_nlp.plot(requested_text), mimetype='image/png')
 
 
 @app.route('/nlplrp')
 @nocache
 def nlplrp():
     requested_text = request.args['text']
-    print(requested_text)
     return 'hello i am nlp lrp'
 
 

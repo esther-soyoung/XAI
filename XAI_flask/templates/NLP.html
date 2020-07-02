@@ -62,33 +62,22 @@
             isSubmitted = true;
 
             const params = new URLSearchParams({
-              text: text_to_classify.value
+                text: text_to_classify.value
             });
 
             if (models[0].checked) {
                 //shap
-                $.ajax({
-                  url: "/nlpshap?" + params.toString(),
-                  success: function(data) {
-                      console.log(data)
-                  },
-                })
+                result_content.innerHTML = '<img src="/nlpshap?'+ params.toString() +'" class="result_image">';
             } else if (models[1].checked) {
                 //lrp
                 $.ajax({
-                  url: "/nlplrp?" + params.toString(),
-                  success: function(data) {
-                      console.log(data)
-                  },
+                    url: "/nlplrp?" + params.toString(),
+                    success: function (data) {
+                        console.log(data)
+                    },
                 })
             } else if (models[2].checked) {
-                //lime
-                $.ajax({
-                  url: "/nlplime?" + params.toString(),
-                  success: function(data) {
-                      console.log(data)
-                  },
-                })
+                result_content.innerHTML = '<iframe class="embed-responsive-item" src="/nlplime?' + params.toString() + '" style="width:100%; height: 50vh; border:none;">';
             }
 
             result.style.display = "";
@@ -100,7 +89,7 @@
 
             text_to_classify.value = "";
 
-            result_content.innerHTML.innerHTML = "";
+            result_content.innerHTML = "";
 
             result.style.display = "none";
             model_text_input.style.display = "";

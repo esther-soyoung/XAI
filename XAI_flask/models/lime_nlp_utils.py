@@ -6,6 +6,7 @@ from sklearn.pipeline import TransformerMixin
 from sklearn.base import BaseEstimator
 import numpy as np
 
+
 class TextsToSequences(Tokenizer, BaseEstimator, TransformerMixin):
     def __init__(self,  **kwargs):
         super().__init__(**kwargs)
