@@ -1,22 +1,27 @@
-from tensorflow.keras.models import load_model
+import tensorflow as tf
 
-from flask import Flask, render_template, send_file, request, __main__
+from flask import Flask, render_template, send_file, request, __main__, make_response
 
 from nocache import nocache
-
 
 from models.lime import LIME_NLP
 from models.shap_vision import SHAP_MNIST
 from models.shap_nlp import SHAP_NLP
+from models.FilterViz import FilterViz
+
 from models.lrp import LRP
+
+import numpy as np
+import json
+import base64
 
 '''
     각종 모델을 초기화하는 부분
 '''
-model_mnist = load_model('models/pretrained/mnist_model.h5')
 
-shap_mnist = SHAP_MNIST(model_mnist)
-# lrp_mnist = LRP(model_mnist, (-1, 28, 28, 1))
+shap_mnist = SHAP_MNIST()
+lrp_mnist = LRP((1, 28, 28, 1))
+filter_viz = FilterViz()
 
 shap_nlp = SHAP_NLP()
 lime_nlp = LIME_NLP()
@@ -49,51 +54,50 @@ def machinelearning():
 '''
     이 아래로는 Vision의 결과를 요청하는 endpoint
 '''
-@app.route('/visionshap/<string:dataset>')
+
+
+@app.route('/visionshap', methods=['POST'])
 @nocache
-def visionshap(dataset):
-    if dataset == 'mnist':
-        return send_file(shap_mnist.plot(), mimetype='image/png')
-    elif dataset == 'cifar':
-        None
+def visionshap():
+    img = np.array(json.loads(request.form['image']))
+    return base64.b64encode(shap_mnist.plot(img).getvalue())
 
 
 # vision lrp
-@app.route('/visionlrp/<string:dataset>')
+@app.route('/visionlrp', methods=['POST'])
 @nocache
-def visionlrp(dataset):
-    return ''
+def visionlrp():
+    img = np.array(json.loads(request.form['image']))
+    return base64.b64encode(lrp_mnist.get_LRP(img).getvalue())
 
 
 # vision lime
-@app.route('/visionlime/<string:dataset>')
+@app.route('/visionlime', methods=['POST'])
 @nocache
-def visionlime(dataset):
+def visionlime():
+    img = json.loads(request.form['image'])
     return ''
 
 
 # vision filtervisualization
-@app.route('/visionfv/<string:dataset>')
+@app.route('/visionfv/<int:layer>', methods=['POST'])
 @nocache
-def visionfv(dataset):
-    return ''
+def visionfv(layer):
+    img = np.array(json.loads(request.form['image']))
+    print(layer)
+    return base64.b64encode(filter_viz.get_FilterViz(img, layer).getvalue())
 
 
 '''
     이 아래로는 NLP의 결과를 요청하는 endpoint
 '''
+
+
 @app.route('/nlpshap')
 @nocache
 def nlpshap():
     requested_text = request.args['text']
     return send_file(shap_nlp.plot(requested_text), mimetype='image/png')
-
-
-@app.route('/nlplrp')
-@nocache
-def nlplrp():
-    requested_text = request.args['text']
-    return 'hello i am nlp lrp'
 
 
 @app.route('/nlplime')
@@ -104,5 +108,4 @@ def nlplime():
 
 
 if __name__ == '__main__':
-    from models.lime import TextsToSequences
     app.run(host='0.0.0.0', port=80)

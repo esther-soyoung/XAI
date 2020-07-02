@@ -16,14 +16,10 @@
                 font-size: 3.5rem;
             }
         }
+
         .result_image {
             max-width: 100%;
             height: auto;
-        }
-        .selectbutton {
-            width: auto;
-            max-width: 680px;
-            padding: 0 100px;
         }
     </style>
 
@@ -39,61 +35,6 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-    var isSubmitted = false;
-
-    function submit_data() {
-        const result = document.getElementById("result");
-        const model_dataset_select = document.getElementById("model_dataset_select");
-        const submit_button = document.getElementById("submit_button");
-
-        const result_content =  result.childNodes[1];
-
-        const models = [
-            document.getElementById("shap"),
-            document.getElementById("lrp"),
-            document.getElementById("lime"),
-            document.getElementById("filtervisialization")
-        ];
-
-        if (isSubmitted === false) {
-            isSubmitted = true;
-
-            if (models[0].checked) {
-                //shap
-                result_content.innerHTML =
-                    '<img src=\"{{ url_for('visionshap', dataset='mnist') }}\" class="result_image">';
-
-            } else if (models[1].checked) {
-                //lrp
-
-            } else if (models[2].checked) {
-                //lime
-
-            } else if (models[3].checked) {
-                //filter visualization
-
-            }
-
-            result.style.display = "";
-            model_dataset_select.style.display = "none";
-            submit_button.innerText = "돌아가기";
-        } else {
-            isSubmitted = false;
-
-            result_content.innerHTML = "";
-
-            result.style.display = "none";
-            model_dataset_select.style.display = "";
-
-            submit_button.innerText = "결과 보기"
-        }
-    }
-</script>
 
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -130,12 +71,12 @@
 
 <main role="main" class="container">
     <form id="submit_form" action="#" method="post">
-        <div id="mainContent" class="container" align="center" style="padding-top: 100px">
+        <div id="mainContent" class="container" align="center" style="padding-top: 80px">
 
-            <div class="container" id="model_dataset_select">
+            <div class="container" id="model_select">
                 <div class="page-header">
                     <h2>Vision XAI</h2>
-                    <p>XAI 모델과 데이터셋을 선택해주세요</p>
+                    <p>XAI 모델을 고르고 숫자를 그려주세요</p>
                 </div>
 
                 <div class="jumbotron text-center">
@@ -156,31 +97,229 @@
                         </label>
                     </div>
 
-                </div>
-
-                <div class="jumbotron text-center">
-                    <div class="btn-group btn-group-toggle container-fluid" data-toggle="buttons">
-                        <label class="btn btn-primary active" data-toggle="tooltip" data-placement="top" title="간단한 숫자 손글씨 데이터">
-                            <input type="radio" name="dataset" value="mnist" id="option1" autocomplete="off" checked>
-                            MNIST
-                        </label>
-                        <label class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="10개의 사물을 분류하는 데이터셋">
-                            <input type="radio" name="dataset" value="cifar10" id="option2" autocomplete="off"> CIFAR10
-                        </label>
+                    <div style="width:280px; height: 280px; margin-top:50px" class="container align-center">
+                        <canvas width="28px" height="28px" id="canv"
+                                style="width:280px; height:280px; border:1.5px dashed gray;"></canvas>
                     </div>
+
                 </div>
             </div>
 
             <div id="result" style="display:none;">
                 <div class="jumbotron text-center">
+                    <div id="layer_select" style="display: none;">
+                        <p>Layer를 골라주세요</p>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="layer">
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="jb-radio" id="layer0" value="0" checked>0
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="jb-radio" id="layer1" value="1">1
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="jb-radio" id="layer2" value="2">2
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="jb-radio" id="layer3" value="3">3
+                            </label>
+                        </div>
+                    </div>
+                    <div id="result_content" class="container">
 
+                    </div>
                 </div>
             </div>
 
-            <button id="submit_button" type="button" class="btn btn-success btn-lg bottom-left" onclick="submit_data()">결과 보기</button>
+            <div class="btn-group-lg" role="group">
+                <button id="submit_button" type="button" class="btn btn-success btn-lg bottom-left">
+                    결과 보기
+                </button>
+                <button type="button" class="btn btn-danger btn-lg" id="reset">리셋</button>
+            </div>
         </div>
     </form>
 </main>
 
+<script type="text/javascript">
+    var canvas = document.getElementById('canv');
+    var reset = document.getElementById('reset');
+
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mousedown', setPosition);
+    canvas.addEventListener('mouseenter', setPosition);
+
+    reset.addEventListener('click', resetCanvas);
+    document.body.style.margin = 0;
+
+    var ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000000';
+
+    var x = 0, y = 0;
+
+
+    function setPosition(e) {
+        var abs = canvas.getBoundingClientRect();
+        x = (e.clientX - abs.x) / 10;
+        y = (e.clientY - abs.y) / 10;
+        console.log(x + ' ' + y);
+    }
+
+    function draw(e) {
+        if (e.buttons !== 1) return;
+        ctx.beginPath();
+
+        ctx.moveTo(x, y);
+        setPosition(e);
+        ctx.lineTo(x, y);
+
+        ctx.stroke();
+    }
+
+    function resetCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    const result = document.getElementById("result");
+    const model_select = document.getElementById("model_select");
+    const layer_select = document.getElementById("layer_select");
+
+    const submit_button = document.getElementById("submit_button");
+    const reset_button = document.getElementById("reset");
+
+    const result_content = document.getElementById("result_content");
+
+    const models = [
+        document.getElementById("shap"),
+        document.getElementById("lrp"),
+        document.getElementById("lime"),
+        document.getElementById("filtervisialization")
+    ];
+
+    const layers = [
+        document.getElementById("layer0"),
+        document.getElementById("layer1"),
+        document.getElementById("layer2"),
+        document.getElementById("layer3"),
+    ];
+
+    var isSubmitted = false;
+
+    submit_button.addEventListener("click", submit_data);
+    window.addEventListener("load", setLayer);
+
+    function setLayer() {
+        for (var i = 0; i < layers.length; i++) {
+            layers[i].addEventListener('click', function (e) {
+                $.post({
+                    type: 'POST',
+                    url: '/visionfv/' + this.value,
+                    data: {"image": getCanvasImage()},
+                    success: function (data) {
+                        result_content.innerHTML =
+                            '<img src="data:image/png;base64,' + data + '" class="result_image"/>'
+                    }
+                })
+            });
+        }
+    }
+
+    function submit_data() {
+        if (isSubmitted === false) {
+            isSubmitted = true;
+
+            if (models[0].checked) {
+                $.post({
+                    type: 'POST',
+                    url: '/visionshap',
+                    data: {"image": getCanvasImage()},
+                    success: function (data) {
+                        result_content.innerHTML =
+                            '<img src="data:image/png;base64,' + data + '" class="result_image"/>'
+                    }
+                })
+            } else if (models[1].checked) {
+                //lrp
+                $.post({
+                    type: 'POST',
+                    url: '/visionlrp',
+                    data: {"image": getCanvasImage()},
+                    success: function (data) {
+                        result_content.innerHTML =
+                            '<img src="data:image/png;base64,' + data + '" class="result_image"/>'
+                    }
+                })
+
+            } else if (models[2].checked) {
+                //lime
+                $.post({
+                    type: 'POST',
+                    url: '/visionlime',
+                    data: {"image": getCanvasImage()},
+                    success: function (data) {
+                        result_content.innerHTML =
+                            '<img src="data:image/png;base64,' + data + '" class="result_image"/>'
+                    }
+                })
+
+            } else if (models[3].checked) {
+                //filter visualization
+                layer_select.style.display = "";
+                $.post({
+                    type: 'POST',
+                    url: '/visionfv/' + 0,
+                    data: {"image": getCanvasImage()},
+                    success: function (data) {
+                        result_content.innerHTML =
+                            '<img src="data:image/png;base64,' + data + '" class="result_image"/>'
+                    }
+                })
+
+            }
+
+            result.style.display = "";
+            model_select.style.display = "none";
+
+            submit_button.innerText = "돌아가기";
+            reset_button.style.display = "none";
+        } else {
+            isSubmitted = false;
+
+            result_content.innerHTML = "";
+
+            result.style.display = "none";
+            model_select.style.display = "";
+            layer_select.style.display = "none";
+
+            submit_button.innerText = "결과 보기";
+            reset_button.style.display = "";
+        }
+    }
+
+    function getCanvasImage() {
+        var canvas = document.getElementById('canv');
+        var ctx = canvas.getContext('2d');
+        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        var result = [];
+
+        for (var i = 0; i < canvas.width; i++) {
+            result.push([]);
+            for (var j = 0; j < canvas.height; j++) {
+                result[i].push(imgData.data[(i * 28 + j) * 4 + 3]);
+            }
+        }
+
+        return JSON.stringify(result);
+    }
+</script>
 </body>
 </html>
