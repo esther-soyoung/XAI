@@ -52,11 +52,12 @@ class LRP():
 
     def backprop_pooling(self, activation, relevance):
 
-        z = MaxPool2D(pool_size=(2, 2))(activation)
+        z = MaxPool2D(pool_size=(2,2))(activation)
 
         s = relevance / (z + 1e-10)
         c = gen_nn_ops.max_pool_grad_v2(orig_input=activation, orig_output=z, grad=s,
-                                        ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+                                        ksize=[1, 2, 2, 1],
+                                        strides=[1, 2, 2, 1], padding='VALID')
 
         return activation * c
 
@@ -66,7 +67,7 @@ class LRP():
         b = tf.math.maximum(0., bias)
 
         layer = Conv2D(filters=W.shape[-1], kernel_size=(W.shape[0], W.shape[1]),
-                       padding="SAME", activation='relu')
+                       padding='VALID', activation='relu')
 
         layer.build(input_shape=activation.shape)
 
@@ -76,7 +77,7 @@ class LRP():
 
         s = relevance / (z + 1e-10)
 
-        c = tf.compat.v1.nn.conv2d_backprop_input(activation.shape, W, s, [1, *strides, 1], padding='SAME')
+        c = tf.compat.v1.nn.conv2d_backprop_input(activation.shape, W, s, [1, *strides, 1], padding='VALID')
 
         return activation * c
 
