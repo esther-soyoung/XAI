@@ -50,24 +50,29 @@ class LRP():
 
         return activation * c
 
-    def backprop_pooling(self, activation, relevance):
-
-        z = MaxPool2D(pool_size=(2,2))(activation)
+    def backprop_pooling(self, activation, relevance, layer):
+        strides = layer.get_config()["strides"]
+        pool_size = layer.get_config()["pool_size"]
+        padding = layer.get_config()["padding"].upper()
+        z = MaxPool2D(pool_size=pool_size)(activation)
 
         s = relevance / (z + 1e-10)
         c = gen_nn_ops.max_pool_grad_v2(orig_input=activation, orig_output=z, grad=s,
-                                        ksize=[1, 2, 2, 1],
-                                        strides=[1, 2, 2, 1], padding='VALID')
+                                        ksize=[1, *pool_size, 1],
+                                        strides=[1, *strides, 1], padding=padding)
 
         return activation * c
 
-    def backprop_conv(self, activation, weight, bias, relevance):
-        strides = (1, 1)
+    def backprop_conv(self, activation, weight, bias, relevance, layer):
+        strides = layer.get_config()["strides"]
+        filters = layer.get_config()["filters"]
+        padding = layer.get_config()["padding"].upper()
+        activation_fn = layer.get_config()["activation"]
         W = tf.math.maximum(0., weight)
         b = tf.math.maximum(0., bias)
 
         layer = Conv2D(filters=W.shape[-1], kernel_size=(W.shape[0], W.shape[1]),
-                       padding='VALID', activation='relu')
+                       padding=padding, activation=activation_fn)
 
         layer.build(input_shape=activation.shape)
 
@@ -77,7 +82,8 @@ class LRP():
 
         s = relevance / (z + 1e-10)
 
-        c = tf.compat.v1.nn.conv2d_backprop_input(activation.shape, W, s, [1, *strides, 1], padding='VALID')
+        c = tf.compat.v1.nn.conv2d_backprop_input(activation.shape, W, s, [1, *strides, 1],
+                                                  padding=padding)
 
         return activation * c
 
@@ -108,11 +114,11 @@ class LRP():
                 a = self.activations[(~layer_num) - 1] if layer_num != (len(self.layers) - 1) else data_seg
                 w = self.weights[~wb_cnt]
                 b = self.biases[~wb_cnt]
-                R = self.backprop_conv(a, w, b, R)
+                R = self.backprop_conv(a, w, b, R, layer)
                 wb_cnt += 1
             elif("MaxPooling" in str(layer)):
                 a = self.activations[(~layer_num) - 1] if layer_num != (len(self.layers) - 1) else data_seg
-                R = self.backprop_pooling(a, R)
+                R = self.backprop_pooling(a, R, layer)
 
         LRP_out = tf.reshape(tf.reduce_sum(R, axis = -1), self.data_shape[1:-1])
 
