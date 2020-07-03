@@ -44,5 +44,8 @@ class SHAP_MNIST:
 
         img = BytesIO()
         plt.savefig(img, format='png', dpi=200)
+        plt.clf()
+        plt.cla()
+        plt.close()
         img.seek(0)
         return img

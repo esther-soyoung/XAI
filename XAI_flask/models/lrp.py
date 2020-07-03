@@ -129,6 +129,9 @@ plt.tight_layout()
 
 img = BytesIO()
 plt.savefig(img, format='png', dpi=200)
+plt.clf()
+plt.cla()
+plt.close()
 img.seek(0)
 
 print(base64.b64encode(img.getvalue()).decode(), end='')
