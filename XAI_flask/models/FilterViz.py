@@ -52,9 +52,11 @@ class FilterViz():
         n_rows = math.ceil(filters / n_columns) + 1
         for i in range(6, filters):
             plt.subplot(n_rows, n_columns, i + 1)
+            plt.axis('off')
+            plt.tight_layout()
             plt.imshow(feature[0, :, :, i], interpolation='nearest')
         img = BytesIO()
-        plt.savefig(img, format='png', dpi=500)
+        plt.savefig(img, format='png', dpi=200)
         img.seek(0)
         return img
 

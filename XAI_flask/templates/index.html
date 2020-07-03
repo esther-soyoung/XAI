@@ -31,7 +31,9 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-
+    function resizeIframe(iframe) {
+        iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+    }
 </script>
 
 <body>
@@ -72,28 +74,9 @@
 <main role="main" class="container">
 
     <div id="mainContent" align="left" style="padding-top: 100px">
-        <h3>XAI란 무엇일까요?</h3>
-        <ul>
-            <li><p>SHAP</p>
-                <p>SHAP에 대한 간략한 설명</p>
-            </li>
-            <li><p>LRP</p>
-                <p>LRP에 대한 간략한 설명</p>
-            </li>
-            <li><p>LIME</p>
-                <p>LIME에 대한 간략한 설명</p>
-            </li>
-            <li><p>Filter Visualization</p>
-                <p>필터 시각화에 대한 간략한 설명</p>
-            </li>
-            <li><p>PDP</p>
-                <p>PDP에 대한 간략한 설명</p>
-            </li>
-
-        </ul>
+        <iframe src="/introduction" style="width:100%; border:none;" onload="resizeIframe(this)"></iframe>
     </div>
 
 </main>
-
 </body>
 </html>

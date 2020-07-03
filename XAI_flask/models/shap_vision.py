@@ -43,6 +43,6 @@ class SHAP_MNIST:
         shap.image_plot(shap_values, -data, show=False)
 
         img = BytesIO()
-        plt.savefig(img, format='png', dpi=500)
+        plt.savefig(img, format='png', dpi=200)
         img.seek(0)
         return img

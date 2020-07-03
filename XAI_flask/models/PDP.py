@@ -1,6 +1,10 @@
 from pdpbox import pdp, info_plots
 import pandas as pd
 import tensorflow as tf
+import matplotlib.pyplot as plt
+from io import BytesIO
+import json
+import base64
 
 
 class PDP_BOSTON:
@@ -11,15 +15,21 @@ class PDP_BOSTON:
         y_train = pd.DataFrame(y_train)
         x_test = pd.DataFrame(x_test)
         y_test = pd.DataFrame(y_test)
-        cols = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+        self.cols = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT',
+                     'MEDV']
         x = pd.concat([x_train, x_test])
         y = pd.concat([y_train, y_test])
-        boston_data = x.copy()
-        boston_data['MEDV'] = y
-        boston_data.columns = cols
+        self.boston_data = x.copy()
+        self.boston_data['MEDV'] = y
+        self.boston_data.columns = self.cols
 
-    def plot_basic(self, i):
-        fig, axes, summary_df = info_plots.target_plot(
-            df=boston_data, feature=cols[i], feature_name=cols[i], target='MEDV'
+    def plot(self, i):
+        fig, _, _ = info_plots.target_plot(
+            df=self.boston_data, feature=self.cols[i], feature_name=self.cols[i], target='MEDV'
         )
 
+        img = BytesIO()
+        plt.savefig(img, format='png', dpi=200)
+        img.seek(0)
+
+        return img

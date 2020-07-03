@@ -125,10 +125,10 @@ LRP_out = tf.reshape(tf.reduce_sum(R, axis=-1), data_shape[1:-1])
 
 plt.imshow(LRP_out, cmap=plt.cm.jet)
 plt.axis('off')
-plt.title(np.argmax(activations[-1], axis=1))
+plt.tight_layout()
 
 img = BytesIO()
-plt.savefig(img, format='png', dpi=500)
+plt.savefig(img, format='png', dpi=200)
 img.seek(0)
 
 print(base64.b64encode(img.getvalue()).decode(), end='')

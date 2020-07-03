@@ -109,7 +109,8 @@
                 <div class="jumbotron text-center">
                     <div id="layer_select" style="display: none;">
                         <p>Layer를 골라주세요</p>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="layer">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="layer"
+                             style="padding-bottom: 50px;">
                             <label class="btn btn-secondary">
                                 <input type="radio" name="jb-radio" id="layer0" value="0" checked>0
                             </label>
@@ -184,10 +185,6 @@
 </script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
     const result = document.getElementById("result");
     const model_select = document.getElementById("model_select");
     const layer_select = document.getElementById("layer_select");

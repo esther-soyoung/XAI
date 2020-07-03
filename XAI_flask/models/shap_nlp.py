@@ -60,6 +60,6 @@ class SHAP_NLP:
         shap.force_plot(explainer.expected_value[0], shap_values[0][0], x_test_words[0], matplotlib=True, show=False)
 
         img = BytesIO()
-        plt.savefig(img, format='png', dpi=500)
+        plt.savefig(img, format='png', dpi=200)
         img.seek(0)
         return img
