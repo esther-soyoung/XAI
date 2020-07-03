@@ -74,10 +74,10 @@ def visionshap():
 def visionlrp():
     img = request.form['image']
     try:
-        result = check_output(['python', 'models/lrp.py'], input=img.encode())
+        result = check_output(['python3', 'models/lrp.py'], input=img.encode())
     except:
         try:
-            result = check_output(['python3', 'models/lrp.py'], input=img.encode())
+            result = check_output(['python', 'models/lrp.py'], input=img.encode())
         except:
             raise FileNotFoundError("no python interpreter found")
     return result
@@ -90,14 +90,12 @@ def visionlrp():
 def visionlime():
     img = request.form['image']
     try:
-        result = check_output(['python', 'models/lime_vision.py'], input=img.encode())
+        result = check_output(['python3', 'models/lime_vision.py'], input=img.encode())
     except:
         try:
-            result = check_output(['python3', 'models/lime_vision.py'], input=img.encode())
+            result = check_output(['python', 'models/lime_vision.py'], input=img.encode())
         except:
             raise FileNotFoundError("no python interpreter found")
-    print(result)
-    result = result.decode().split('=')[0] + '='
     return result
 
 
@@ -126,10 +124,10 @@ def nlpshap():
 def nlplime():
     requested_text = request.args['text']
     try:
-        result = check_output(['python', 'models/lime_nlp.py'], input=requested_text.encode())
+        result = check_output(['python3', 'models/lime_nlp.py'], input=requested_text.encode())
     except:
         try:
-            result = check_output(['python3', 'models/lime_nlp.py'], input=requested_text.encode())
+            result = check_output(['python', 'models/lime_nlp.py'], input=requested_text.encode())
         except:
             raise FileNotFoundError("no python interpreter found")
     return result
@@ -138,7 +136,6 @@ def nlplime():
 @app.route('/pdp/<int:i>')
 @nocache
 def pdp(i):
-    print(i)
     return send_file(pdp_ml.plot(i), mimetype='image/png')
 
 

@@ -97,7 +97,7 @@
             </div>
 
             <div id="result" style="display:none;">
-                <div class="jumbotron text-center">
+                <div class="container-fluid">
 
                 </div>
             </div>
@@ -136,7 +136,8 @@
                 //shap
                 result_content.innerHTML = '<img src="/nlpshap?' + params.toString() + '" class="result_image">';
             } else if (models[1].checked) {
-                result_content.innerHTML = '<iframe class="embed-responsive-item" src="/nlplime?' + params.toString() + '" style="width:100%; height: 50vh; border:none;">';
+                result_content.innerHTML =
+                    '<iframe class="embed-responsive-item" onload="resizeIframe(this)" src="/nlplime?' + params.toString() + '" style="width:100%; height: 50vh; border:none;">';
             }
 
             result.style.display = "";
@@ -155,6 +156,10 @@
 
             submit_button.innerText = "분석하기!"
         }
+    }
+
+    function resizeIframe(iframe) {
+        iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
     }
 </script>
 

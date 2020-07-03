@@ -59,40 +59,45 @@ explanation = (
         top_labels=10, hide_color=0, num_samples=100, segmentation_fn=segmenter)
 )
 
-# set canvas
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(8, 8))
-
+plt.figure(figsize=(4, 4))
 temp, mask = (
     explanation.get_image_and_mask(model_predict, positive_only=True, num_features=10, hide_rest=False)
 )
 
-ax1.imshow(
+plt.subplot(2, 2, 1)
+
+plt.imshow(
     label2rgb(mask, temp, bg_label=0),
     interpolation='nearest')
 
-ax1.set_title('Positive Regions for {}'.format(model_predict))
+plt.title('Positive Regions for {}'.format(model_predict))
 
 # show all segments
 temp, mask = (
     explanation.get_image_and_mask(model_predict, positive_only=False, num_features=10, hide_rest=False)
 )
 
-ax2.imshow(
+plt.subplot(2, 2, 2)
+
+plt.imshow(
     label2rgb(4 - mask, temp, bg_label=0),
     interpolation='nearest')
 
-ax2.set_title('Positive/Negative Regions for {}'.format(model_predict))
+plt.title('Positive/Negative Regions for {}'.format(model_predict))
 
 # show image only
-ax3.imshow(temp, interpolation='nearest')
-ax3.set_title('Show output image only')
+plt.subplot(2, 2, 3)
+plt.imshow(temp, interpolation='nearest')
+plt.title('Show output image only')
 
 # show mask only
-ax4.imshow(mask, interpolation='nearest')
-ax4.set_title('Show mask only')
+plt.subplot(2, 2, 4)
+plt.imshow(mask, interpolation='nearest')
+plt.title('Show mask only')
+plt.close()
 
 img = BytesIO()
-fig.savefig(img, format='png', dpi=200)
+plt.savefig(img, format='png', dpi=200)
 img.seek(0)
 
-print(base64.b64encode(img.getvalue()).decode(), end='')
+print(base64.b64encode(img.getvalue()).decode('utf-8'), end='')

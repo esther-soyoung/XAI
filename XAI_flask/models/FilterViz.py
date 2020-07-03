@@ -50,7 +50,7 @@ class FilterViz():
         plt.figure(1, figsize=(8, 15))
         n_columns = 3
         n_rows = math.ceil(filters / n_columns) + 1
-        for i in range(6, filters):
+        for i in range(0, filters):
             plt.subplot(n_rows, n_columns, i + 1)
             plt.axis('off')
             plt.tight_layout()
