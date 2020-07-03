@@ -80,7 +80,6 @@ def visionlrp():
             result = check_output(['python3', 'models/lrp.py'], input=img.encode())
         except:
             raise FileNotFoundError("no python interpreter found")
-    print(result)
     return result
 
 
@@ -97,8 +96,9 @@ def visionlime():
             result = check_output(['python3', 'models/lime_vision.py'], input=img.encode())
         except:
             raise FileNotFoundError("no python interpreter found")
+    print(result)
     result = result.decode().split('=')[0] + '='
-    return result.encode()
+    return result
 
 
 # vision filtervisualization
