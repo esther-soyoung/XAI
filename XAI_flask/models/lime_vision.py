@@ -70,7 +70,7 @@ plt.imshow(
     label2rgb(mask, temp, bg_label=0),
     interpolation='nearest')
 
-plt.title('Positive Regions for {}'.format(model_predict), fontdict={'fontsize': 3})
+plt.title('Positive Regions for {}'.format(model_predict), fontdict={'fontsize': 5})
 plt.axis("off")
 
 # show all segments
@@ -84,19 +84,19 @@ plt.imshow(
     label2rgb(4 - mask, temp, bg_label=0),
     interpolation='nearest')
 
-plt.title('Positive/Negative Regions for {}'.format(model_predict), fontdict={'fontsize': 3})
+plt.title('Positive/Negative Regions for {}'.format(model_predict), fontdict={'fontsize': 5})
 plt.axis("off")
 
 # show image only
 plt.subplot(2, 2, 3)
 plt.imshow(temp, interpolation='nearest')
-plt.title('Show output image only', fontdict={'fontsize': 3})
+plt.title('Show output image only', fontdict={'fontsize': 5})
 plt.axis("off")
 
 # show mask only
 plt.subplot(2, 2, 4)
 plt.imshow(mask, interpolation='nearest')
-plt.title('Show mask only', fontdict={'fontsize': 3})
+plt.title('Show mask only', fontdict={'fontsize': 5})
 plt.axis("off")
 
 img = BytesIO()
