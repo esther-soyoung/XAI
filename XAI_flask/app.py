@@ -9,18 +9,16 @@ from models.shap_vision import SHAP_MNIST
 from models.shap_nlp import SHAP_NLP
 from models.FilterViz import FilterViz
 
-from models.lrp import LRP
 
 import numpy as np
 import json
 import base64
-
+from subprocess import check_output
 '''
     각종 모델을 초기화하는 부분
 '''
 
 shap_mnist = SHAP_MNIST()
-lrp_mnist = LRP((1, 28, 28, 1))
 filter_viz = FilterViz()
 
 shap_nlp = SHAP_NLP()
@@ -67,8 +65,16 @@ def visionshap():
 @app.route('/visionlrp', methods=['POST'])
 @nocache
 def visionlrp():
-    img = np.array(json.loads(request.form['image']))
-    return base64.b64encode(lrp_mnist.get_LRP(img).getvalue())
+    img = request.form['image']
+    try:
+        result = check_output(['python', 'models/lrp.py'], input=img.encode())
+    except:
+        try:
+            result = check_output(['python3', 'models/lrp.py'], input=img.encode())
+        except:
+            raise FileNotFoundError("no python interpreter found")
+    return result
+
 
 
 # vision lime
@@ -84,7 +90,6 @@ def visionlime():
 @nocache
 def visionfv(layer):
     img = np.array(json.loads(request.form['image']))
-    print(layer)
     return base64.b64encode(filter_viz.get_FilterViz(img, layer).getvalue())
 
 
