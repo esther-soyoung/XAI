@@ -94,7 +94,6 @@ plt.title('Show output image only')
 plt.subplot(2, 2, 4)
 plt.imshow(mask, interpolation='nearest')
 plt.title('Show mask only')
-plt.close()
 
 img = BytesIO()
 plt.savefig(img, format='png', dpi=200)
