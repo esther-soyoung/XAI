@@ -65,7 +65,6 @@ class LRP():
 
     def backprop_conv(self, activation, weight, bias, relevance, layer):
         strides = layer.get_config()["strides"]
-        filters = layer.get_config()["filters"]
         padding = layer.get_config()["padding"].upper()
         activation_fn = layer.get_config()["activation"]
         W = tf.math.maximum(0., weight)
@@ -87,7 +86,24 @@ class LRP():
 
         return activation * c
 
-    def get_LRP(self, data):
+    def get_average_LRP(self):
+        try:
+            pred = np.argmax(self.activations[-1], 1)
+        except:
+            raise Exception("Call compute_LRP() method first!!")
+        (x_train, y_train), (_,_) = tf.keras.datasets.mnist.load_data()
+        x_train = x_train.reshape(self.data_shape)[y_train == pred]
+        average_LRP = self.compute_LRP(x_train)
+        plt.imshow(average_LRP, cmap = plt.cm.jet)
+        plt.axis('off')
+
+        img = BytesIO()
+        plt.savefig(img, format = 'png', dpi = 500)
+        img.seek(0)
+        return img
+
+
+    def compute_LRP(self, data):
         data_seg = tf.cast(data.reshape(self.data_shape), tf.float32)
 
         self.activations = []
@@ -97,8 +113,8 @@ class LRP():
             a = layer(a)
             self.activations.append(a)
 
-        R = self.activations[-1]
-        wb_cnt = 0
+            R = self.activations[-1]
+            wb_cnt = 0
 
         for layer_num, layer in enumerate(self.layers[::-1]):
 
@@ -119,12 +135,14 @@ class LRP():
             elif("MaxPooling" in str(layer)):
                 a = self.activations[(~layer_num) - 1] if layer_num != (len(self.layers) - 1) else data_seg
                 R = self.backprop_pooling(a, R, layer)
-
+        R = tf.reduce_sum(R, axis = 0)
         LRP_out = tf.reshape(tf.reduce_sum(R, axis = -1), self.data_shape[1:-1])
+        return LRP_out
 
+    def get_LRP(self, data):
+        LRP_out = self.compute_LRP(data)
         plt.imshow(LRP_out, cmap = plt.cm.jet)
         plt.axis('off')
-        plt.title(np.argmax(self.activations[-1], axis = 1))
 
         img = BytesIO()
         plt.savefig(img, format = 'png', dpi = 500)
