@@ -1,6 +1,6 @@
-import tensorflow as tf
+from tensorflow.keras.models import load_model
 
-from flask import Flask, render_template, send_file, request, __main__, make_response
+from flask import Flask, render_template, send_file, request
 
 from nocache import nocache
 
@@ -54,6 +54,26 @@ def machinelearning():
 @app.route('/introduction')
 def introduction():
     return render_template('introduction.html')
+
+
+@app.route('/prediction', methods=['POST'])
+@nocache
+def prediction():
+    model = load_model('models/pretrained/mnist_model.h5')
+
+    img = np.array(json.loads(request.form['image']))
+    img = img.astype('float32')
+    img /= 255
+    img = img.reshape((1, 28, 28, 1))
+
+    model_predict = model.predict_classes(img)[0]
+    model_prob = model.predict(img)[0]
+
+    model_predict = int(model_predict)
+    model_prob = list(map(lambda x: str(int(x * 100)) + '%', model_prob))
+
+    return json.dumps({'predict': model_predict, 'probability': model_prob})
+
 
 
 '''

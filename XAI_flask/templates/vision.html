@@ -106,6 +106,18 @@
             </div>
 
             <div id="result" style="display:none;">
+                <table class="table table-bordered">
+                    <thead class="">
+                    <tr id="th_row">
+                        <th scope="col">Label</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="tb_row">
+                        <th scope="row">Probability</th>
+                    </tr>
+                    </tbody>
+                </table>
                 <div id="layer_select" style="display: none;">
                     <p>Layer를 골라주세요</p>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons" id="layer"
@@ -206,10 +218,14 @@
         document.getElementById("layer3"),
     ];
 
+    var table_label = [];
+    var table_prob = [];
+
     var isSubmitted = false;
 
     submit_button.addEventListener("click", submit_data);
     window.addEventListener("load", setLayer);
+    window.addEventListener("load", initTable);
 
     function setLayer() {
         for (var i = 0; i < layers.length; i++) {
@@ -227,9 +243,46 @@
         }
     }
 
+    function initTable() {
+        const th_row = document.getElementById("th_row");
+        const tb_row = document.getElementById("tb_row");
+
+        for (var i = 0; i < 10; i++) {
+            var label = document.createElement("th");
+            var prob = document.createElement("td");
+
+            label.innerText = i.toString();
+
+            table_label.push(label);
+            table_prob.push(prob);
+
+            th_row.appendChild(label);
+            tb_row.appendChild(prob);
+        }
+    }
+
     function submit_data() {
         if (isSubmitted === false) {
             isSubmitted = true;
+
+            $.post({
+                type: "POST",
+                url: "/prediction",
+                data: {"image": getCanvasImage()},
+                success: function (data) {
+                    var parse = JSON.parse(data);
+
+                    var predict = parse['predict'];
+                    var probability = parse['probability'];
+
+                    for (var i = 0; i < 10; i++) {
+                        table_prob[i].innerText = probability[i];
+                    }
+                    console.log(predict);
+                    table_label[predict].classList.add('table-danger');
+                    table_prob[predict].classList.add('table-danger');
+                }
+            });
 
             if (models[0].checked) {
                 $.post({
@@ -286,6 +339,12 @@
             submit_button.innerText = "돌아가기";
             reset_button.style.display = "none";
         } else {
+            for (var i = 0; i < 10; i++) {
+                table_prob[i].innerText = "";
+                table_label[i].classList.remove('table-danger');
+                table_prob[i].classList.remove('table-danger');
+            }
+
             isSubmitted = false;
 
             result_content.innerHTML = "";
