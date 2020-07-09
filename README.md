@@ -51,10 +51,6 @@
    - ##### LRP    Layer-wise Relevance Propagation
 
      Relevance란 각 feature(pixel) 값이 최종 아웃풋에 기여하는 정도를 뜻한다. LRP는 딥러닝 모델을 backpropagation을 통해 역추적하여 각 레이어의 relevance값을 구하다 보면, 첫 인풋 레이어에 도달하고, 이때 각 feature(pixel)의 기여도를 구할 수 있다.
-     $$
-     R_{i\leftarrow k}^{(l,l+1)}=R_{k}^{(l,l+1)}\frac{a_iw_{ik}}{\sum_ha_hw_{hk}}
-     $$
-     Relevance는 위 공식으로 구해지고 전파된다.
      
      
      
