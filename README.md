@@ -2,6 +2,14 @@
 
 # XAI : explainable AI
 
+### 실행방법
+
+1. docker를 설치한다
+2. `docker build -t xai:latest .`  을 실행한다
+3. `docker run --name xai -d -p 80:80 xai:latest` 을 실행한다
+
+---
+
 
 
 1. #### What is XAI?
