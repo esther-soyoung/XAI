@@ -119,4 +119,5 @@ YBIGTA CONFERENCE Spring 2020
 
 ------
 
-강소영 (엔지니어링 15기)	백진우 (사이언스 15기)	김주은 (사이언스 16기)	정정호 (사이언스 16기)	조석주 (사이언스 16기)
+강소영 (엔지니어링 15기)	백진우 (사이언스 15기)	김주은 (사이언스 16기)	정정호 (사이언스 16기)	조석주 (사이언스 16기)  
+Soyoung Kang   Jinwoo Baek Jooeun Kim  Jungho Jung Seokju Jo
