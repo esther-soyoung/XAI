@@ -153,13 +153,14 @@ YBIGTA CONFERENCE Spring 2020
          - LIME: 긍정/부정 예측 결과와 예측에 중요한 역할을 한 단어들 하이라이트한 입력 텍스트 출력 \\ Highlights the words that contributed most to the sensitivity prediction.
      - **Machine Learning**
        - PDP
-         - 12개의 변수 중 중요도를 확인할 변수 선택 후 결과 그래프 확인 \\ Choose a feature to test the relationship with the target.
+         - 12개의 변수 중 중요도를 확인할 변수 선택 후 결과 그래프 확인
+         Choose a feature to test the relationship with the target.
 
 
 
 ### References
 
-[Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/)
+[Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/) \\
 [XAI 설명 가능한 인공지능, 인공지능을 해부하다 by 안재현](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9791158392000&orderClick=JAK)
 
 ------
