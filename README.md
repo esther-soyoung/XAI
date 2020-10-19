@@ -141,26 +141,32 @@ YBIGTA CONFERENCE Spring 2020
      - **Vision**
        - 분석할 숫자 그리기 (Input the number to recognize.)
        - SHAP / LRP / LIME / Filter Visualization 중 선택
-         - SHAP: 예측에 영향을 미치는 피처 중요도를 수치화&시각화 \\ Visualizes the contribution of each feature to the prediction.
-         - LRP: 예측 결과와 예측에 중요한 역할을 한 픽셀들의 히트맵 \\ Creates a heatmap that distincts important pixels.
-         - LIME: 인풋 이미지에서 중요도가 높은 부분 하이라이트/마스킹 한 결과 \\ Highlights the pixels that contributed most to the prediction.
-         - Filter Visualization: Layer 0/1/2/3 선택, 각 레이어를 통과한 이후의 데이터의 픽셀 값 결과 확인 가능 \\ Visualizes how each pixel changes throughout the CNN layers 0~3.
+         - SHAP: 예측에 영향을 미치는 피처 중요도를 수치화&시각화  
+         Visualizes the contribution of each feature to the prediction.
+         - LRP: 예측 결과와 예측에 중요한 역할을 한 픽셀들의 히트맵  
+         Creates a heatmap that distincts important pixels.
+         - LIME: 인풋 이미지에서 중요도가 높은 부분 하이라이트/마스킹 한 결과  
+         Highlights the pixels that contributed most to the prediction.
+         - Filter Visualization: Layer 0/1/2/3 선택, 각 레이어를 통과한 이후의 데이터의 픽셀 값 결과 확인 가능  
+         Visualizes how each pixel changes throughout the CNN layers 0~3.
 
      - **NLP**
        - 분석할 텍스트 입력 (Input the text to predict sensitivity.)
        - SHAP / LIME 중 선택
-         - SHAP: 예측에 영향을 미치는 피처 중요도를 수치화&시각화 \\ Visualizes the contribution of each feature to the prediction.
-         - LIME: 긍정/부정 예측 결과와 예측에 중요한 역할을 한 단어들 하이라이트한 입력 텍스트 출력 \\ Highlights the words that contributed most to the sensitivity prediction.
+         - SHAP: 예측에 영향을 미치는 피처 중요도를 수치화&시각화  
+         Visualizes the contribution of each feature to the prediction.
+         - LIME: 긍정/부정 예측 결과와 예측에 중요한 역할을 한 단어들 하이라이트한 입력 텍스트 출력  
+         Highlights the words that contributed most to the sensitivity prediction.
      - **Machine Learning**
        - PDP
-         - 12개의 변수 중 중요도를 확인할 변수 선택 후 결과 그래프 확인
+         - 12개의 변수 중 중요도를 확인할 변수 선택 후 결과 그래프 확인  
          Choose a feature to test the relationship with the target.
 
 
 
 ### References
 
-[Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/) \\
+[Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/)  
 [XAI 설명 가능한 인공지능, 인공지능을 해부하다 by 안재현](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9791158392000&orderClick=JAK)
 
 ------
