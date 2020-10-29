@@ -5,7 +5,7 @@ YBIGTA CONFERENCE Spring 2020
 #### Demo URL
 
    [http://hamacojr.asuscomm.com/](http://hamacojr.asuscomm.com/)
-   Sorry:( We currently shut down the server due to maintanence cost.
+   Sorry:( We have currently shut down the server due to maintanence cost.
 
 #### Getting Started
 
